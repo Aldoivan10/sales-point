@@ -12,9 +12,14 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@aldoivan10/linked-array": "^1.0.5",
+    "@aldoivan10/v-api-client": "^1.0.0",
+    "@aldoivan10/v-shortcut": "^1.0.4",
     "@quasar/extras": "^1.16.17",
+    "@tailwindcss/vite": "^4.0.14",
     "pinia": "^3.0.1",
     "quasar": "^2.18.1",
+    "tailwindcss": "^4.0.14",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

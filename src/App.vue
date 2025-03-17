@@ -1,31 +1,35 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useQuasar } from 'quasar'
+import HeaderLayout from './layout/HeaderLayout.vue'
+import NavLayout from './layout/NavLayout.vue'
+import ChoiceUserDialog from './components/dialog/ChoiceUserDialog.vue'
+import { useTabStore } from './stores/tab.store'
+import { onMounted } from 'vue'
+
+const $q = useQuasar()
+const tabStore = useTabStore()
+
+$q.dialog({
+    component: ChoiceUserDialog,
+    componentProps: {
+        persistent: true,
+    },
+}).onOk((user: User.State) => {
+    $q.notify({
+        type: 'positive',
+        message: `ACCEDIDO COMO: <b>${user.name}</b>`,
+        html: true,
+    })
+})
+</script>
 
 <template>
     <q-layout view="hhh lpR lFr">
-        <q-header elevated class="bg-primary text-white" height-hint="98">
-            <q-toolbar>
-                <q-btn dense flat round icon="menu" @click="" />
+        <HeaderLayout />
+        <NavLayout />
 
-                <q-toolbar-title>
-                    <q-avatar>
-                        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-                    </q-avatar>
-                    Title
-                </q-toolbar-title>
-            </q-toolbar>
-
-            <q-tabs align="left">
-                <q-route-tab to="/page1" label="Page One" />
-                <q-route-tab to="/page2" label="Page Two" />
-                <q-route-tab to="/page3" label="Page Three" />
-            </q-tabs>
-        </q-header>
-
-        <q-drawer show-if-above v-model="leftDrawerOpen" side="left" behavior="desktop" elevated>
-        </q-drawer>
-
-        <q-page-container>
-            <!-- <router-view /> -->
+        <q-page-container class="h-dvh">
+            <router-view />
         </q-page-container>
     </q-layout>
 </template>
