@@ -7,7 +7,7 @@ const { expandMenu: expand } = storeToRefs(menuStore)
 </script>
 
 <template>
-    <q-header elevated class="bg-primary text-white" height-hint="98">
+    <q-header elevated class="bg-secondary text-white" height-hint="98">
         <q-toolbar>
             <q-btn dense flat round icon="r_menu" @click="expand = !expand" />
 

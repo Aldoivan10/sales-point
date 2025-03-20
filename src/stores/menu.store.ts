@@ -5,7 +5,7 @@ import { ref } from 'vue'
 export const useMenuStore = defineStore('menu-store', () => {
     const menuItems = ref<Menu.Item[]>([
         {
-            title: 'Punto de venta',
+            title: 'PUNTO DE VENTA',
             admin: false,
             subtitle: 'F1',
             icon: 'r_store',

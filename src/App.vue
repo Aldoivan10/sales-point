@@ -4,7 +4,6 @@ import HeaderLayout from './layout/HeaderLayout.vue'
 import NavLayout from './layout/NavLayout.vue'
 import ChoiceUserDialog from './components/dialog/ChoiceUserDialog.vue'
 import { useTabStore } from './stores/tab.store'
-import { onMounted } from 'vue'
 
 const $q = useQuasar()
 const tabStore = useTabStore()
@@ -15,6 +14,7 @@ $q.dialog({
         persistent: true,
     },
 }).onOk((user: User.State) => {
+    tabStore.addTab(user)
     $q.notify({
         type: 'positive',
         message: `ACCEDIDO COMO: <b>${user.name}</b>`,
@@ -29,7 +29,9 @@ $q.dialog({
         <NavLayout />
 
         <q-page-container class="h-dvh">
-            <router-view />
+            <main class="h-full p-4 place-items-center !flex flex-col justify-center items-center">
+                <router-view />
+            </main>
         </q-page-container>
     </q-layout>
 </template>

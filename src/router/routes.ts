@@ -1,7 +1,7 @@
 import HomeView from '@/views/HomeView.vue'
-/* import ProductsView from '@/views/ProductsView.vue' */
+import ProductsView from '@/views/ProductsView.vue'
 import type { RouteRecordRaw } from 'vue-router'
-import { authGuard } from './guards'
+import { authGuard, needUserGuard } from './guards'
 
 export const Route: Readonly<Record<string, string>> = {
     HOME: '/',
@@ -15,7 +15,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'home',
         component: HomeView,
     },
-    /* {
+    {
         path: Route.SALES_POINT,
         name: 'sales-point',
         component: ProductsView,
@@ -24,7 +24,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
             return { itemsPerPage: Number(limit), search, page: Number(offset) }
         },
         beforeEnter: needUserGuard,
-    }, */
+    },
     {
         path: Route.PRODUCTS,
         name: 'products',

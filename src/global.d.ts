@@ -1,4 +1,4 @@
-import 'vue';
+import 'vue'
 
 declare global {
     namespace Route {
@@ -49,7 +49,7 @@ declare global {
             amount: number
             min: number
             refundable: boolean
-            buy: boolean
+            buy: number
             supplier: Catalog
             department: Catalog
             codes: Code[]
@@ -58,14 +58,14 @@ declare global {
     }
 
     namespace Table {
-        type Options = { page?: number; itemsPerPage?: number, search?: string }
+        type Options = { page?: number; itemsPerPage?: number; search?: string }
     }
 
     namespace Form {
         type Rule = (value: string) => boolean | string
     }
 
-    type APIFech<T> = { items: T[], total: number }
+    type APIFech<T> = { items: T[]; total: number }
 
     type APIParams = { limit?: number; offset?: number } & Record<string, any>
 
@@ -85,4 +85,4 @@ declare global {
     }
 }
 
-export { };
+export {}
