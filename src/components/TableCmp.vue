@@ -6,7 +6,6 @@ const {
     rows = [],
     columns = [],
     title = 'Tabla',
-    pagination = {},
 } = defineProps<{
     rows?: any[]
     title?: string
@@ -16,6 +15,7 @@ const {
 
 const filter = ref('')
 const $table = ref<QTable>()
+const pagination = defineModel('pagination', { type: Object as () => QTableProps['pagination'] })
 
 onMounted(() => {
     $table.value?.requestServerInteraction()
