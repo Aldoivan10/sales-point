@@ -2,14 +2,14 @@
 import { useTabStore } from '@/stores/tab.store'
 import { useUserStore } from '@/stores/user.store'
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useDialogPluginComponent, useQuasar } from 'quasar'
 
 const $q = useQuasar()
 const { dialogRef, onDialogHide, onDialogOK } = useDialogPluginComponent()
 const userStore = useUserStore()
 const tabStore = useTabStore()
-const { availibleUsers: users } = storeToRefs(userStore)
+const { availibleUsers: users, error } = storeToRefs(userStore)
 const { tabs } = storeToRefs(tabStore)
 
 const $emit = defineEmits([...useDialogPluginComponent.emits])
@@ -33,6 +33,10 @@ async function login(user: User.State) {
             html: true,
         })
 }
+
+watch(error, (message) => {
+    if (message) $q.notify({ type: 'negative', message })
+})
 
 onMounted(async () => await userStore.findSystemUsers())
 </script>
