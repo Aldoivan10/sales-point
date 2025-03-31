@@ -6,9 +6,11 @@ const {
     rows = [],
     columns = [],
     title = 'Tabla',
+    loading = false,
 } = defineProps<{
     rows?: any[]
     title?: string
+    loading?: boolean
     columns?: QTableColumn[]
 }>()
 
@@ -24,9 +26,11 @@ onMounted(() => $table.value?.requestServerInteraction())
         :title
         :rows
         :columns
+        :loading
         ref="$table"
         row-key="id"
         virtual-scroll
+        color="primary"
         v-model:pagination="pagination"
         :rows-per-page-options="[50, 100, 250, 500, 0]"
         table-header-class="[&>.text-left]:!text-center"
@@ -53,6 +57,9 @@ onMounted(() => $table.value?.requestServerInteraction())
                     </template>
                 </q-input>
             </div>
+        </template>
+        <template v-slot:loading>
+            <q-inner-loading showing color="primary" />
         </template>
     </q-table>
 </template>

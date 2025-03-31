@@ -20,7 +20,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
         name: 'sales-point',
         component: ProductsView,
         props: (route) => {
-            const { itemsPerPage: limit = '10', search = '', page: offset = '1' } = route.query
+            const { itemsPerPage: limit = '50', search = '', page: offset = '1' } = route.query
             return { itemsPerPage: Number(limit), search, page: Number(offset) }
         },
         beforeEnter: needUserGuard,

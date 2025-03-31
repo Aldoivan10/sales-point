@@ -15,14 +15,14 @@ export const useTabStore = defineStore('tab', () => {
     })
 
     watch(user, (tab) => {
-        if(tab) changeView(tab)
+        if (tab) changeView(tab)
     })
 
     function addTab(user: User.State) {
         const tab = Object.assign(
             {
                 route: Route.SALES_POINT,
-                itemsPerPage: 10,
+                itemsPerPage: 50,
                 search: '',
                 page: 1,
             },
