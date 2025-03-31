@@ -5,11 +5,18 @@ import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
 const productStore = useProductStore()
-const { columns, products: rows } = storeToRefs(productStore)
+const { columns, products: rows, pagination, search: filter } = storeToRefs(productStore)
 
 onMounted(productStore.filter)
 </script>
 
 <template>
-    <TableCmp :rows :columns title="Productos" class="grow w-full" />
+    <TableCmp
+        :rows
+        :columns
+        title="PRODUCTOS"
+        class="grow w-full"
+        v-model:filter="filter"
+        v-model:pagination="pagination"
+    />
 </template>

@@ -1,8 +1,8 @@
 import { round, toPercent, toPrice } from '@/utils/format.util'
 import { useApi } from '@aldoivan10/v-api-client/composable'
 import { defineStore } from 'pinia'
-import type { QTableColumn, QTableProps } from 'quasar'
-import { ref } from 'vue'
+import type { QTableColumn } from 'quasar'
+import { ref, watch } from 'vue'
 
 export const useProductStore = defineStore('product', () => {
     const api = useApi()
@@ -10,24 +10,24 @@ export const useProductStore = defineStore('product', () => {
     const loading = ref(false)
     const columns = ref<QTableColumn[]>([])
 
-    const pagination = ref<QTableProps['pagination']>({
+    const pagination = ref<Table.Pagination>({
         page: 1,
-        rowsPerPage: 10,
         rowsNumber: 0,
+        rowsPerPage: 50,
     })
+    const search = ref('')
 
     async function find(params: APIParams) {
         loading.value = true
-        const queryParams = new URLSearchParams(Object.assign({ orders: ['nombre_asc'] }, params))
         const response = await api.get<APIFech<Product.Item>>({
-            url: `/product?${queryParams.toString()}`,
+            url: `/product`,
+            body: Object.assign({ orders: ['nombre_asc'] }, params),
         })
         if (response.ok) {
             const { items, total } = response.body
             products.value = items
             pagination.value!.rowsNumber = total
-            columns.value = buildColumns(items[0])
-            console.log(items)
+            if (items.length) columns.value = buildColumns(items[0])
         } else console.log(response.error)
         loading.value = false
     }
@@ -36,10 +36,10 @@ export const useProductStore = defineStore('product', () => {
         const columns: QTableColumn[] = [
             {
                 name: 'name',
+                align: 'left',
                 field: 'name',
                 required: true,
-                label: 'Nombre',
-                align: 'center',
+                label: 'NOMBRE',
                 sortable: false,
             },
         ]
@@ -53,7 +53,7 @@ export const useProductStore = defineStore('product', () => {
             })
         columns.push({
             name: 'unit',
-            label: 'Unidad',
+            label: 'UNIDAD',
             align: 'center',
             sortable: false,
             field: (row: Product.Item) => row.units[0].name,
@@ -61,13 +61,13 @@ export const useProductStore = defineStore('product', () => {
         columns.push({
             name: 'amount',
             field: (row: Product.Item) => round(row.amount),
-            label: 'Cantidad',
+            label: 'CANTIDAD',
             align: 'center',
             sortable: false,
         })
         columns.push({
             field: (row: Product.Item) => toPrice(row.buy),
-            label: 'Precio (MXN)',
+            label: 'PRECIO (MXN)',
             align: 'center',
             sortable: false,
             name: 'buy',
@@ -76,26 +76,26 @@ export const useProductStore = defineStore('product', () => {
             align: 'center',
             sortable: false,
             name: 'department',
-            label: 'Departamento',
+            label: 'DEPARTAMENTO',
             field: (row: Product.Item) => row.department.name,
         })
         columns.push({
             field: (row: Product.Item) => row.supplier.name,
-            label: 'Proveedor',
+            label: 'PROVEEDOR',
             name: 'supplier',
             align: 'center',
             sortable: false,
         })
         columns.push({
             field: (row: Product.Item) => toPrice(row.units[0].sale),
-            label: 'Precio de compra (MXN)',
+            label: 'PRECIO DE COMPRA (MXN)',
             sortable: false,
             align: 'center',
             name: 'sale',
         })
         columns.push({
             field: (row: Product.Item) => toPercent(row.units[0].profit ?? 0),
-            label: 'Ganancia (%)',
+            label: 'GANANCIA (%)',
             align: 'center',
             sortable: false,
             name: 'profit',
@@ -103,11 +103,12 @@ export const useProductStore = defineStore('product', () => {
         return columns
     }
 
-    function filter({ itemsPerPage: limit = 10, page = 1, search = '' }: Table.Options = {}) {
+    function filter({ rowsPerPage: limit = 10, page = 1, search = '' }: Table.Options = {}) {
         if (search) {
             let filter
             if (search.includes('*'))
                 filter = search
+                    .toUpperCase()
                     .split('*')
                     .filter(Boolean)
                     .map((str) => `%${str}%`)
@@ -117,5 +118,7 @@ export const useProductStore = defineStore('product', () => {
         } else find({ limit, offset: (page - 1) * limit })
     }
 
-    return { filter, columns, products, loading, pagination }
+    watch([pagination, search], ([pPag, search]) => filter(Object.assign({ search }, pPag)))
+
+    return { filter, columns, products, loading, pagination, search }
 })

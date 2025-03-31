@@ -58,7 +58,13 @@ declare global {
     }
 
     namespace Table {
-        type Options = { page?: number; itemsPerPage?: number; search?: string }
+        type Options = Partial<Pagination> & { search?: string }
+
+        type Pagination = {
+            page: number
+            rowsNumber: number
+            rowsPerPage: number
+        }
     }
 
     namespace Form {

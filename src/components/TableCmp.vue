@@ -10,16 +10,13 @@ const {
     rows?: any[]
     title?: string
     columns?: QTableColumn[]
-    pagination?: QTableProps['pagination']
 }>()
 
-const filter = ref('')
 const $table = ref<QTable>()
+const filter = defineModel('filter', { type: String })
 const pagination = defineModel('pagination', { type: Object as () => QTableProps['pagination'] })
 
-onMounted(() => {
-    $table.value?.requestServerInteraction()
-})
+onMounted(() => $table.value?.requestServerInteraction())
 </script>
 
 <template>
@@ -31,9 +28,10 @@ onMounted(() => {
         row-key="id"
         virtual-scroll
         v-model:pagination="pagination"
-        table-header-class="bg-primary text-white"
         :rows-per-page-options="[50, 100, 250, 500, 0]"
-        @request="(props) => console.log(props.pagination)"
+        table-header-class="[&>.text-left]:!text-center"
+        @request="(props) => (pagination = props.pagination)"
+        class="overflow-auto [&_tbody_tr]:odd:!bg-gray-100 [&_thead]:!bg-primary [&_thead]:!text-white [&_thead_th]:!font-bold [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase"
     >
         <template v-slot:top>
             <div class="flex gap-2 items-center w-full">
@@ -46,9 +44,9 @@ onMounted(() => {
                     debounce="300"
                     v-model="filter"
                     label-color="white"
-                    placeholder="Buscar..."
-                    input-class="text-white"
-                    class="[&:focus-within_i]:text-white grow"
+                    placeholder="BUSCAR..."
+                    input-class="focus:!text-white !text-orange-200 !uppercase"
+                    class="[&:.q-icon]:text-white grow [&_.q-icon]:text-orange-200 [&_.q-field\_\_control]:before:!border-orange-200"
                 >
                     <template v-slot:append>
                         <q-icon name="r_search" />
