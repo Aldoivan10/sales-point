@@ -34,6 +34,8 @@ declare global {
             itemsPerPage?: number
             page?: number
         }
+
+        type Login = { username: string; password: string }
     }
 
     namespace Product {

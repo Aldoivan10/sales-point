@@ -3,4 +3,11 @@
 @theme {
     --color-primary: #f28028;
     --color-secondary: #f26929;
+    --color-negative: #f44336;
+}
+
+@layer base {
+    @variant dark {
+        --color-negative: #c10015;
+    }
 }

@@ -50,7 +50,7 @@ onMounted(() => $table.value?.requestServerInteraction())
                     label-color="white"
                     placeholder="BUSCAR..."
                     input-class="focus:!text-white !text-orange-200 !uppercase"
-                    class="[&:.q-icon]:text-white grow [&_.q-icon]:text-orange-200 [&_.q-field\_\_control]:before:!border-orange-200"
+                    class="[&:focus-within_.q-icon]:text-white grow [&_.q-icon]:text-orange-200 [&_.q-field\_\_control]:before:!border-orange-200"
                 >
                     <template v-slot:append>
                         <q-icon name="r_search" />
