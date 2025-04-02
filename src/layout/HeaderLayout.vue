@@ -18,9 +18,7 @@ function showLogin() {
             persistent: true,
             isLogin: true,
         },
-    }).onOk(({ username, password }: User.Login) => {
-        console.log(username, password)
-    })
+    }).onOk(() => (user.value!.logged = true))
 }
 </script>
 
