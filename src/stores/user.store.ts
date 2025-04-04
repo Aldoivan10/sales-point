@@ -24,5 +24,13 @@ export const useUserStore = defineStore('user', () => {
         return api.post({ url: '/login', body: { username }, credentials: 'include' })
     }
 
-    return { availibleUsers, error, findSystemUsers, findUser }
+    async function logout(username: string) {
+        return api.post({
+            url: '/logout',
+            body: { username },
+            credentials: 'include',
+        })
+    }
+
+    return { availibleUsers, error, findSystemUsers, findUser, logout }
 })

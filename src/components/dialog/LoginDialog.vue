@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useDialogPluginComponent, useQuasar, type ValidationRule } from 'quasar'
 import { useUserStore } from '@/stores/user.store'
 import { useTabStore } from '@/stores/tab.store'
+import { errorToast, okToast } from '@/utils/msg.util'
 
 defineEmits([...useDialogPluginComponent.emits])
 const $q = useQuasar()
@@ -19,16 +20,10 @@ const showPass = ref(false)
 
 async function loginUser() {
     const isAdmin = await userStore.findUser(login.value.username, login.value.password)
-    if (!isAdmin.ok)
-        $q.notify({ type: 'negative', message: '<b>ERROR:</b> Contraseña incorrecta', html: true })
-    else {
-        $q.notify({
-            type: 'positive',
-            message: '<b>EXITO:</b> Ahora eres administrador',
-            html: true,
-        })
+    if (isAdmin.ok) {
+        okToast($q, 'AHORA ERES ADMINISTRADOR')
         onDialogOK()
-    }
+    } else errorToast($q, isAdmin.error.message, isAdmin.error.body?.id)
 }
 
 async function registerUser() {}
@@ -53,6 +48,7 @@ async function registerUser() {}
                         class="[&:not(.q-field--error):focus-within_.q-icon]:text-primary [&:is(.q-field--error)_.q-icon]:text-negative"
                         v-model="login.username"
                         :rules="requiredRules"
+                        :autofocus="!isLogin"
                         autocomplete="none"
                         v-show="!isLogin"
                         :hidden="isLogin"
@@ -72,6 +68,7 @@ async function registerUser() {}
                         v-model="login.password"
                         :rules="requiredRules"
                         label="CONTRASEÑA"
+                        :autofocus="isLogin"
                         maxlength="10"
                         :autocomplete
                         counter
