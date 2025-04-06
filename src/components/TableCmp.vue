@@ -35,7 +35,7 @@ onMounted(() => $table.value?.requestServerInteraction())
         :rows-per-page-options="[50, 100, 250, 500, 0]"
         table-header-class="[&>.text-left]:!text-center"
         @request="(props) => (pagination = props.pagination)"
-        class="overflow-auto [&_tbody_tr]:odd:!bg-gray-100 [&_thead]:!bg-primary [&_thead]:!text-white [&_thead_th]:!font-bold [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase"
+        class="overflow-auto [&_thead]:sticky [&_thead]:z-10 [&_thead]:top-0 [&_tbody_tr]:odd:!bg-gray-100 [&_thead]:!bg-primary [&_thead]:!text-white [&_thead_th]:!font-bold [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase"
     >
         <template v-slot:top>
             <div class="flex gap-2 items-center w-full">
