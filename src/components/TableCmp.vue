@@ -3,6 +3,7 @@ import type { QTable, QTableColumn, QTableProps } from 'quasar'
 import { onMounted, ref } from 'vue'
 
 const {
+    icon = '',
     rows = [],
     columns = [],
     title = 'Tabla',
@@ -12,6 +13,7 @@ const {
     title?: string
     loading?: boolean
     columns?: QTableColumn[]
+    icon?: string
 }>()
 
 const $table = ref<QTable>()
@@ -39,8 +41,8 @@ onMounted(() => $table.value?.requestServerInteraction())
     >
         <template v-slot:top>
             <div class="flex gap-2 items-center w-full">
-                <q-icon name="r_all_inbox" size="2em"></q-icon>
-                <h6 class="m-0 h-fit">{{ title }}</h6>
+                <q-icon :name="icon" size="2em"></q-icon>
+                <h6 class="m-0 h-fit w-35">{{ title }}</h6>
                 <q-input
                     dense
                     filled
@@ -56,7 +58,26 @@ onMounted(() => $table.value?.requestServerInteraction())
                         <q-icon name="r_search" />
                     </template>
                 </q-input>
+                <slot name="header-append"></slot>
             </div>
+        </template>
+        <template v-slot:body="props">
+            <q-tr :props="props">
+                <template v-for="col in columns" :key="col.name">
+                    <template v-if="$slots[`body-cell-${col.name}`]">
+                        <slot :name="`body-cell-${col.name}`" v-bind="props" />
+                    </template>
+                    <template v-else>
+                        <q-td :key="col.name" :props="props">
+                            {{
+                                typeof col.field == 'function'
+                                    ? col.field(props.row)
+                                    : props.row[String(col.field)]
+                            }}
+                        </q-td>
+                    </template>
+                </template>
+            </q-tr>
         </template>
         <template v-slot:loading>
             <q-inner-loading showing color="primary" />
