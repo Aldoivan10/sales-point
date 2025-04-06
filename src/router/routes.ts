@@ -7,6 +7,11 @@ export const Route: Readonly<Record<string, string>> = {
     HOME: '/',
     SALES_POINT: '/sales-point',
     PRODUCTS: '/products',
+    CLIENTS: '/clients',
+    CATALOGS: '/catalogs',
+    PRINTER: '/printer',
+    HISTORY: '/history',
+    REPORTS: '/reports',
 }
 
 export const routes: Readonly<RouteRecordRaw[]> = [
@@ -28,6 +33,36 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     {
         path: Route.PRODUCTS,
         name: 'products',
+        component: HomeView,
+        beforeEnter: authGuard,
+    },
+    {
+        path: Route.CLIENTS,
+        name: 'clients',
+        component: HomeView,
+        beforeEnter: authGuard,
+    },
+    {
+        path: Route.CATALOGS,
+        name: 'catalogs',
+        component: HomeView,
+        beforeEnter: authGuard,
+    },
+    {
+        path: Route.PRINTER,
+        name: 'printer',
+        component: HomeView,
+        beforeEnter: authGuard,
+    },
+    {
+        path: Route.HISTORY,
+        name: 'history',
+        component: HomeView,
+        beforeEnter: authGuard,
+    },
+    {
+        path: Route.REPORTS,
+        name: 'reports',
         component: HomeView,
         beforeEnter: authGuard,
     },
