@@ -32,7 +32,7 @@ export const useMenuStore = defineStore('menu-store', () => {
             title: 'IMPRESORA',
             admin: true,
             subtitle: 'F4',
-            icon: 'r_printer',
+            icon: 'r_print',
             tooltip: 'F4',
             route: Route.PRINTER,
         },
