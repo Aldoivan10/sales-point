@@ -21,7 +21,7 @@ $q.dialog({
 </script>
 
 <template>
-    <q-layout view="hhh lpR lFr">
+    <q-layout view="hhh lpR lFr" class="selection:text-white selection:bg-secondary">
         <HeaderLayout />
         <NavLayout />
 

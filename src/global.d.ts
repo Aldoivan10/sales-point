@@ -67,10 +67,26 @@ declare global {
             rowsNumber: number
             rowsPerPage: number
         }
+
+        type Entity = Options & { type?: string }
     }
 
     namespace Form {
         type Rule = (value: string) => boolean | string
+    }
+
+    namespace Entity {
+        type Item = {
+            rfc: string | null
+            id_entity_type: number
+            name: string
+            address: string | null
+            domicile: string | null
+            postal_code: string | null
+            phone: string | null
+            email: string | null
+            type: { id: number; name: string }
+        }
     }
 
     type APIFech<T> = { items: T[]; total: number }
@@ -80,6 +96,8 @@ declare global {
     type Role = 'info' | 'warning' | 'error' | 'success'
 
     type Maybe<T> = null | undefined | T
+
+    type APIError = { id: string; msg: string }
 
     type Env = ImportMetaEnv & {
         VITE_API_URL: string
