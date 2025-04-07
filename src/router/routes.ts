@@ -2,6 +2,7 @@ import HomeView from '@/views/HomeView.vue'
 import ProductsView from '@/views/ProductsView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { authGuard, needUserGuard } from './guards'
+import ClientsView from '@/views/ClientsView.vue'
 
 export const Route: Readonly<Record<string, string>> = {
     HOME: '/',
@@ -39,7 +40,7 @@ export const routes: Readonly<RouteRecordRaw[]> = [
     {
         path: Route.CLIENTS,
         name: 'clients',
-        component: HomeView,
+        component: ClientsView,
         beforeEnter: authGuard,
     },
     {
