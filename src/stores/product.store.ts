@@ -8,6 +8,7 @@ export const useProductStore = defineStore('product', () => {
     const api = useApi()
     const products = ref<Product.Item[]>([])
     const loading = ref(false)
+    const error = ref<APIError>()
     const columns = ref<QTableColumn[]>([])
 
     const pagination = ref<Table.Pagination>({
@@ -19,6 +20,7 @@ export const useProductStore = defineStore('product', () => {
 
     async function find(params: APIParams) {
         loading.value = true
+        error.value = undefined
         const response = await api.get<APIFech<Product.Item>>({
             url: `/product`,
             body: Object.assign({ orders: ['nombre_asc'] }, params),
@@ -28,7 +30,7 @@ export const useProductStore = defineStore('product', () => {
             products.value = items
             pagination.value!.rowsNumber = total
             if (items.length) columns.value = buildColumns(items[0])
-        } else console.log(response.error)
+        } else error.value = { id: response.error.body?.id, msg: response.error.message }
         loading.value = false
     }
 
@@ -120,5 +122,5 @@ export const useProductStore = defineStore('product', () => {
 
     watch([pagination, search], ([pPag, search]) => filter(Object.assign({ search }, pPag)))
 
-    return { filter, columns, products, loading, pagination, search }
+    return { filter, columns, products, loading, pagination, search, error }
 })
