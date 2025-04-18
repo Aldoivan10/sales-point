@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { QCheckbox, QTable, QTableColumn, QTableProps } from 'quasar'
+import { QTable, type QTableColumn, type QTableProps } from 'quasar'
 import { nextTick, onMounted, ref, watch } from 'vue'
 
 const {
@@ -26,25 +26,16 @@ const pagination = defineModel('pagination', {
 	type: Object as () => QTableProps['pagination'],
 })
 
-/* function highlightRow(index = -1, { page, rowsPerPage }: QTableProps['pagination'], next = 1) {
-	const $checkbox = $checks.value[index + next]
-	const len = $checks.value.length
-	if ($checkbox) $checkbox.focus()
-	else $checks.value[next == 1 ? 0 : len - 1].focus()
-} */
-
 function highlightRow(
-	{ page = 1, rowsPerPage = 50 }: QTableProps['pagination'],
-	index = -1,
-	next = 1,
+	step: number,
+	row: number = -1,
+	{ rowsPerPage: rows = 50, page = 1 }: QTableProps['pagination'] = {},
 ) {
-	console.log(page, rowsPerPage, index)
-	const offset = (page - 1) * rowsPerPage
-	const checkIndex = index + next - offset
-	const $checkbox = $checks.value[checkIndex]
+	const offset = (page - 1) * rows
+	const $checkbox = $checks.value[row - offset + step]
 	const len = $checks.value.length
 	if ($checkbox) $checkbox.focus()
-	else $checks.value[next == 1 ? 0 : len - 1].focus()
+	else $checks.value[step == 1 ? 0 : len - 1].focus()
 }
 
 watch(
@@ -76,14 +67,6 @@ onMounted(async () => $table.value?.requestServerInteraction())
 		table-header-class="[&>.text-left]:!text-center [&_th]:!font-bold bg-primary text-white z-10 top-0 sticky"
 		class="overflow-auto [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase"
 	>
-		<template v-slot:header-selection="props">
-			<q-checkbox
-				class="[&:is([aria-checked=true],[aria-checked=mixed])_svg]:!text-secondary [&:is([aria-checked=true],[aria-checked=mixed])_.q-checkbox\_\_bg]:!bg-white [&:is([aria-checked=true],[aria-checked=mixed])_.q-checkbox\_\_bg]:!border-white"
-				@keydown.up.prevent="highlightRow(pagination, 0, -1)"
-				@keydown.down.prevent="highlightRow(pagination, 0)"
-				v-model="props.selected"
-			/>
-		</template>
 		<template v-slot:top>
 			<div class="flex gap-2 items-center w-full">
 				<q-icon :name="icon" size="2em"></q-icon>
@@ -96,8 +79,8 @@ onMounted(async () => $table.value?.requestServerInteraction())
 					v-model="filter"
 					label-color="white"
 					placeholder="BUSCAR..."
-					@keydown.down.prevent="highlightRow(pagination)"
-					@keydown.up.prevent="highlightRow(pagination, -1, -1)"
+					@keydown.down.prevent="highlightRow(1)"
+					@keydown.up.prevent="highlightRow(-1)"
 					v-shortcut.prevent.click="['ctrl+shift+space']"
 					input-class="focus:!text-white !text-orange-200 !uppercase"
 					class="[&:focus-within_.q-icon]:text-white grow [&_.q-icon]:text-orange-200 [&_.q-field\_\_control]:before:!border-orange-200"
@@ -109,6 +92,14 @@ onMounted(async () => $table.value?.requestServerInteraction())
 				<slot name="header-append"></slot>
 			</div>
 		</template>
+		<template v-slot:header-selection="props">
+			<q-checkbox
+				class="[&:is([aria-checked=true],[aria-checked=mixed])_svg]:!text-secondary [&:is([aria-checked=true],[aria-checked=mixed])_.q-checkbox\_\_bg]:!bg-white [&:is([aria-checked=true],[aria-checked=mixed])_.q-checkbox\_\_bg]:!border-white"
+				@keydown.down.prevent="highlightRow(1, 0)"
+				@keydown.up.prevent="highlightRow(-1, 0)"
+				v-model="props.selected"
+			/>
+		</template>
 		<template v-slot:body="props">
 			<q-tr
 				class="[&:has([aria-checked=true])]:!bg-secondary/10 [&:focus-within]:!bg-secondary/5 [&:not(:has([aria-checked=true]))]:odd:bg-gray-100"
@@ -117,10 +108,10 @@ onMounted(async () => $table.value?.requestServerInteraction())
 				<q-td v-if="select" auto-width>
 					<q-checkbox
 						@keydown.down.prevent="
-							highlightRow(pagination, props.rowIndex + 1)
+							highlightRow(1, props.rowIndex + 1, pagination)
 						"
 						@keydown.up.prevent="
-							highlightRow(pagination, props.rowIndex + 1, -1)
+							highlightRow(-1, props.rowIndex + 1, pagination)
 						"
 						v-model="props.selected"
 					/>
