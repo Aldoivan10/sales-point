@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import { QTable, type QTableColumn, type QTableProps } from 'quasar'
 import { nextTick, onMounted, ref, watch } from 'vue'
 
@@ -9,17 +9,25 @@ const {
 	title = 'Tabla',
 	loading = false,
 	select = false,
+	admin = false,
 } = defineProps<{
-	rows?: any[]
+	rows?: T[]
 	title?: string
 	loading?: boolean
 	columns?: QTableColumn[]
 	icon?: string
 	select?: boolean
+	admin?: boolean
+}>()
+
+defineEmits<{
+	(e: 'add'): void
+	(e: 'edit', product: T): void
+	(e: 'remove', products: T[]): void
 }>()
 
 const $table = ref<QTable>()
-const selected = ref<number[]>([])
+const selected = ref<any[]>([])
 const $checks = ref<HTMLInputElement[]>([])
 const filter = defineModel('filter', { type: String })
 const pagination = defineModel('pagination', {
@@ -89,7 +97,38 @@ onMounted(async () => $table.value?.requestServerInteraction())
 						<q-icon name="r_search" />
 					</template>
 				</q-input>
-				<slot name="header-append"></slot>
+				<div class="flex gap-2">
+					<slot name="header-append"></slot>
+					<span v-if="admin" class="flex gap-2">
+						<q-btn
+							@click="$emit('add')"
+							class="!h-[42px]"
+							color="positive"
+							round
+						>
+							<q-icon name="r_add"></q-icon>
+							<q-tooltip>NUEVO</q-tooltip>
+						</q-btn>
+						<q-btn
+							@click="$emit('edit', selected[0])"
+							class="!h-[42px]"
+							color="amber"
+							round
+						>
+							<q-icon name="r_edit"></q-icon>
+							<q-tooltip>EDITAR</q-tooltip>
+						</q-btn>
+						<q-btn
+							@click="$emit('remove', selected)"
+							class="!h-[42px]"
+							color="negative"
+							round
+						>
+							<q-icon name="r_delete"></q-icon>
+							<q-tooltip>ELIMINAR</q-tooltip>
+						</q-btn>
+					</span>
+				</div>
 			</div>
 		</template>
 		<template v-slot:header-selection="props">
