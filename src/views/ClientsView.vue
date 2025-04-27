@@ -34,6 +34,7 @@ watch(error, (newErrror) => {
 		:rows
 		:columns
 		:loading
+		admin
 		:select="true"
 		icon="r_groups"
 		title="CLIENTES"
