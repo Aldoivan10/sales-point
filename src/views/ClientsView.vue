@@ -4,7 +4,7 @@ import { useClientStore } from '@/stores/client.store'
 import { errorToast } from '@/utils/msg.util'
 import { storeToRefs } from 'pinia'
 import { useQuasar, type QSelectOption } from 'quasar'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 const $q = useQuasar()
 const clientStore = useClientStore()
@@ -27,8 +27,6 @@ const options = ref<QSelectOption[]>([
 watch(error, (newErrror) => {
 	if (newErrror) errorToast($q, newErrror.msg, newErrror.id)
 })
-
-onMounted(clientStore.filter)
 </script>
 
 <template>
