@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { QTable, type QTableColumn, type QTableProps } from 'quasar'
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 
 const {
 	icon = '',
@@ -53,8 +53,6 @@ watch(
 		$checks.value = Array.from(document.querySelectorAll('.q-checkbox'))
 	},
 )
-
-onMounted(async () => $table.value?.requestServerInteraction())
 </script>
 
 <template>
