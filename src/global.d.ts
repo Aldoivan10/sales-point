@@ -121,3 +121,10 @@ declare global {
 }
 
 export {}
+
+declare module 'vue-router' {
+	interface RouteMeta {
+		requireAdmin?: boolean
+		requiresUser?: boolean
+	}
+}

@@ -2,7 +2,6 @@ import ClientsView from '@/views/ClientsView.vue'
 import HomeView from '@/views/HomeView.vue'
 import ProductsView from '@/views/ProductsView.vue'
 import type { RouteRecordRaw } from 'vue-router'
-import { authGuard, needUserGuard } from './guards'
 
 export const Route: Readonly<Record<string, string>> = {
 	HOME: '/',
@@ -25,43 +24,63 @@ export const routes: Readonly<RouteRecordRaw[]> = [
 		path: Route.SALES_POINT,
 		name: 'sales-point',
 		component: ProductsView,
-		beforeEnter: needUserGuard,
+		meta: {
+			requiresUser: true,
+		},
 	},
 	{
 		path: Route.PRODUCTS,
 		name: 'products',
 		component: ProductsView,
-		beforeEnter: authGuard,
 		props: { admin: true },
+		meta: {
+			requiresUser: true,
+			requireAdmin: true,
+		},
 	},
 	{
 		path: Route.CLIENTS,
 		name: 'clients',
 		component: ClientsView,
-		beforeEnter: authGuard,
+		meta: {
+			requiresUser: true,
+			requireAdmin: true,
+		},
 	},
 	{
 		path: Route.CATALOGS,
 		name: 'catalogs',
 		component: HomeView,
-		beforeEnter: authGuard,
+		meta: {
+			requiresUser: true,
+			requireAdmin: true,
+		},
 	},
 	{
 		path: Route.PRINTER,
 		name: 'printer',
 		component: HomeView,
-		beforeEnter: authGuard,
+		meta: {
+			requiresUser: true,
+			requireAdmin: true,
+		},
 	},
 	{
 		path: Route.HISTORY,
 		name: 'history',
 		component: HomeView,
-		beforeEnter: authGuard,
+		meta: {
+			requiresUser: true,
+			requireAdmin: true,
+		},
 	},
 	{
 		path: Route.REPORTS,
 		name: 'reports',
 		component: HomeView,
-		beforeEnter: authGuard,
+		meta: {
+			requiresUser: true,
+			requireAdmin: true,
+		},
 	},
 ]
