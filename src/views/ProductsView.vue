@@ -65,31 +65,36 @@ watch([productError, kitError], ([pError, kError]) => {
 </script>
 
 <template>
-	<TableCmp
-		select
-		:admin
-		:rows="data.rows"
-		:title="data.title"
-		:columns="data.columns"
-		:loading="data.loading"
-		class="grow w-full"
-		icon="r_point_of_sale"
-		v-model:filter="filter"
-		v-model:pagination="pagination"
-		@edit="(item) => console.log(item)"
+	<q-page
+		class="h-full p-4 place-items-center !flex flex-col justify-center items-center position-relative"
 	>
-		<template #header-append>
-			<q-toggle
-				unchecked-icon="r_inventory_2"
-				checked-icon="r_all_inbox"
-				v-model="showKits"
-				color="black"
-				size="lg"
-			>
-				<q-tooltip class="text-center">
-					{{ data.tooltip }}
-				</q-tooltip>
-			</q-toggle>
-		</template>
-	</TableCmp>
+		<TableCmp
+			select
+			:admin
+			:key="data.title"
+			:rows="data.rows"
+			:title="data.title"
+			:columns="data.columns"
+			:loading="data.loading"
+			class="grow w-full"
+			icon="r_point_of_sale"
+			v-model:filter="filter"
+			v-model:pagination="pagination"
+			@edit="(item) => console.log(item)"
+		>
+			<template #header-append>
+				<q-toggle
+					unchecked-icon="r_inventory_2"
+					checked-icon="r_all_inbox"
+					v-model="showKits"
+					color="black"
+					size="lg"
+				>
+					<q-tooltip class="text-center">
+						{{ data.tooltip }}
+					</q-tooltip>
+				</q-toggle>
+			</template>
+		</TableCmp>
+	</q-page>
 </template>

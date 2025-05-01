@@ -8,6 +8,7 @@ import { ref, watch } from 'vue'
 
 const $q = useQuasar()
 const clientStore = useClientStore()
+const title = ref('CLIENTES')
 const {
 	search: filter,
 	clients: rows,
@@ -30,52 +31,57 @@ watch(error, (newErrror) => {
 </script>
 
 <template>
-	<TableCmp
-		:rows
-		:columns
-		:loading
-		admin
-		:select="true"
-		icon="r_groups"
-		title="CLIENTES"
-		class="grow w-full"
-		v-model:filter="filter"
-		v-model:pagination="pagination"
+	<q-page
+		class="h-full p-4 place-items-center !flex flex-col justify-center items-center position-relative"
 	>
-		<template #header-append>
-			<q-select
-				dense
-				filled
-				emit-value
-				map-options
-				label="TIPO"
-				color="secondary"
-				v-model="type"
-				:options="options"
-				class="[&_.q-icon]:text-white [&_.ellipsis]:!text-white [&:focus-within_.q-field\_\_control]:after:!bg-white [&_.q-field\_\_control]:before:!border-orange-200 w-45"
-			/>
-		</template>
-		<template v-slot:body-cell-email="props">
-			<q-td key="email" :props="props">
-				<a
-					v-if="props.row.email"
-					:href="'mailto:' + props.row.email"
-					class="text-blue"
-				>
-					{{ props.row.email }}
-				</a>
-			</q-td>
-		</template>
-		<template v-slot:body-cell-phone="props">
-			<q-td key="phone" :props="props">
-				<a
-					v-if="props.row.phone"
-					:href="'tel:' + props.row.phone"
-					class="text-blue"
-				>
-					{{ props.row.phone }}
-				</a>
-			</q-td>
-		</template>
-	</TableCmp>
+		<TableCmp
+			admin
+			:rows
+			:title
+			:columns
+			:loading
+			:key="title"
+			:select="true"
+			icon="r_groups"
+			class="grow w-full"
+			v-model:filter="filter"
+			v-model:pagination="pagination"
+		>
+			<template #header-append>
+				<q-select
+					dense
+					filled
+					emit-value
+					map-options
+					label="TIPO"
+					color="secondary"
+					v-model="type"
+					:options="options"
+					class="[&_.q-icon]:text-white [&_.ellipsis]:!text-white [&:focus-within_.q-field\_\_control]:after:!bg-white [&_.q-field\_\_control]:before:!border-orange-200 w-45"
+				/>
+			</template>
+			<template v-slot:body-cell-email="props">
+				<q-td key="email" :props="props">
+					<a
+						v-if="props.row.email"
+						:href="'mailto:' + props.row.email"
+						class="text-blue"
+					>
+						{{ props.row.email }}
+					</a>
+				</q-td>
+			</template>
+			<template v-slot:body-cell-phone="props">
+				<q-td key="phone" :props="props">
+					<a
+						v-if="props.row.phone"
+						:href="'tel:' + props.row.phone"
+						class="text-blue"
+					>
+						{{ props.row.phone }}
+					</a>
+				</q-td>
+			</template>
+		</TableCmp>
+	</q-page>
 </template>
