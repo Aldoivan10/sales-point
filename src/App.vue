@@ -23,17 +23,13 @@ $q.dialog({
 <template>
 	<q-layout
 		view="hhh lpR lFr"
-		class="selection:text-white selection:bg-secondary"
+		class="selection:text-white selection:bg-secondary [&_.q-drawer]:transition-[width] [&:has(.q-drawer--mini)_.q-list]:w-[50px]"
 	>
 		<HeaderLayout />
 		<NavLayout />
 
-		<q-page-container class="h-dvh">
-			<main
-				class="h-full p-4 place-items-center !flex flex-col justify-center items-center"
-			>
-				<router-view />
-			</main>
+		<q-page-container class="h-dvh transition-[padding-left]">
+			<router-view />
 		</q-page-container>
 	</q-layout>
 </template>
