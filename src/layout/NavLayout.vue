@@ -2,7 +2,6 @@
 import { useMenuStore } from '@/stores/menu.store'
 import { useTabStore } from '@/stores/tab.store'
 import { storeToRefs } from 'pinia'
-import { useQuasar } from 'quasar'
 
 const menuStore = useMenuStore()
 const tabStore = useTabStore()
