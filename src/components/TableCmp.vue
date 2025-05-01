@@ -71,7 +71,7 @@ watch(
 		:rows-per-page-options="[10, 50, 100, 250, 500, 0]"
 		@request="(props) => (pagination = props.pagination)"
 		table-header-class="[&>.text-left]:!text-center [&_th]:!font-bold bg-primary text-white z-10 top-0 sticky"
-		class="overflow-auto [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase"
+		class="overflow-auto [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase [&_thead_tr]:!h-[55px]"
 	>
 		<template v-slot:top>
 			<div class="flex gap-2 items-center w-full">
@@ -135,6 +135,7 @@ watch(
 				@keydown.down.prevent="highlightRow(1, 0)"
 				@keydown.up.prevent="highlightRow(-1, 0)"
 				v-model="props.selected"
+				v-if="rows.length"
 			/>
 		</template>
 		<template v-slot:body="props">

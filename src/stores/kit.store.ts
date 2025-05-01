@@ -6,19 +6,11 @@ import { ref, watch } from 'vue'
 export const useKitStore = defineStore('kit', () => {
 	const api = useApiClient()
 	const loading = ref(false)
-	const kits = ref<Kit.Item[]>()
+	const kits = ref<Kit.Item[]>([])
 	const columns = ref<QTableColumn[]>([
 		{
 			name: 'name',
 			field: 'anme',
-			required: true,
-			label: 'NOMBRE',
-			sortable: false,
-		},
-		{
-			name: 'name',
-			align: 'left',
-			field: 'name',
 			required: true,
 			label: 'NOMBRE',
 			sortable: false,

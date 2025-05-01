@@ -1,3 +1,4 @@
+import type { QTableColumn } from 'quasar'
 import 'vue'
 
 declare global {
@@ -117,6 +118,14 @@ declare global {
 		title?: string
 		sortable?: boolean
 		value: SelectItemKey<T>
+	}
+
+	type ProductTableData = {
+		rows: Array<Product.Item | Kit.Item>
+		columns: QTableColumn[]
+		loading: boolean
+		tooltip: string
+		title: string
 	}
 }
 
