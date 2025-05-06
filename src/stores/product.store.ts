@@ -10,12 +10,20 @@ export const useProductStore = defineStore('product', () => {
 	const loading = ref(false)
 	const error = ref<APIError>()
 	const columns = ref<QTableColumn[]>([])
+	enum HIDE_COLS {
+		KIT = 'buy, sale, profit, provider, amount',
+		SALE = 'sale, profit',
+		ADMIN = '',
+	}
 
-	const pagination = ref<Table.Pagination>({
-		page: 1,
-		rowsNumber: 0,
-		rowsPerPage: 50,
-	})
+	const pagination = ref<Table.Pagination & { type: keyof typeof HIDE_COLS }>(
+		{
+			page: 1,
+			rowsNumber: 0,
+			rowsPerPage: 50,
+			type: 'SALE',
+		},
+	)
 	const search = ref('')
 
 	async function find(params: APIParams) {
@@ -29,7 +37,12 @@ export const useProductStore = defineStore('product', () => {
 			const { items, total } = response.body
 			products.value = items
 			pagination.value!.rowsNumber = total
-			if (items.length) columns.value = buildColumns(items[0])
+			if (items.length) {
+				const hideCols = HIDE_COLS[pagination.value.type].split(', ')
+				columns.value = buildColumns(items[0]).filter(
+					(col) => !hideCols.includes(col.name),
+				)
+			}
 		} else
 			error.value = {
 				id: response.error.body?.id,
@@ -137,5 +150,14 @@ export const useProductStore = defineStore('product', () => {
 		filter(Object.assign({ search }, pPag)),
 	)
 
-	return { filter, columns, products, loading, pagination, search, error }
+	return {
+		filter,
+
+		columns,
+		products,
+		loading,
+		pagination,
+		search,
+		error,
+	}
 })
