@@ -1,5 +1,5 @@
-import type { QTableColumn } from 'quasar'
-import 'vue'
+import type { QTableColumn } from 'quasar';
+import 'vue';
 
 declare global {
 	namespace Route {
@@ -57,6 +57,10 @@ declare global {
 			department: Catalog
 			codes: Code[]
 			units: Unit[]
+		}
+
+		type Form = Item & {
+			units: number[]
 		}
 	}
 
@@ -127,9 +131,17 @@ declare global {
 		tooltip: string
 		title: string
 	}
+
+	type CatalogItem = {
+		total: number,
+		loading: boolean,
+		error?: APIError,
+		endPoint: string,
+		items: Product.Catalog[]
+	}
 }
 
-export {}
+export { };
 
 declare module 'vue-router' {
 	interface RouteMeta {

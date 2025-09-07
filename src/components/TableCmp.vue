@@ -65,13 +65,18 @@ watch(
 		ref="$table"
 		row-key="id"
 		color="primary"
+		:class="{ admin }"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
 		:selection="select ? 'multiple' : 'none'"
 		:rows-per-page-options="[10, 50, 100, 250, 500, 0]"
 		@request="(props) => (pagination = props.pagination)"
-		table-header-class="[&>.text-left]:!text-center [&_th]:!font-bold bg-primary text-white z-10 top-0 sticky"
-		class="overflow-auto [&>.q-table\_\_top]:!bg-primary [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase [&_thead_tr]:!h-[55px]"
+		:table-header-class="[
+			'[&>.text-left]:!text-center [&_th]:!font-bold [&_th]:uppercase',
+			admin ? 'bg-dark' : 'bg-primary',
+			'text-white z-10 top-0 sticky',
+		]"
+		class="overflow-auto [&>.q-table\_\_top]:!text-white [&_.q-table\_\_bottom]:uppercase [&_thead_tr]:!h-[55px] [&:not(.admin)>.q-table\_\_top]:!bg-primary [&.admin>.q-table\_\_top]:!bg-dark"
 	>
 		<template v-slot:top>
 			<div class="flex gap-2 items-center w-full">
@@ -85,11 +90,11 @@ watch(
 					v-model="filter"
 					label-color="white"
 					placeholder="BUSCAR..."
-					@keydown.down.prevent="highlightRow(1)"
 					@keydown.up.prevent="highlightRow(-1)"
+					@keydown.down.prevent="highlightRow(1)"
 					v-shortcut.prevent.click="['ctrl+shift+space']"
-					input-class="focus:!text-white !text-orange-200 !uppercase"
-					class="[&:focus-within_.q-icon]:text-white grow [&_.q-icon]:text-orange-200 [&_.q-field\_\_control]:before:!border-orange-200"
+					input-class="focus:!text-white !text-white !uppercase"
+					class="[&:focus-within_.q-icon]:text-white grow [&_.q-icon]:text-white [&_.q-field\_\_control]:before:!border-white"
 				>
 					<template v-slot:append>
 						<q-icon name="r_search" />

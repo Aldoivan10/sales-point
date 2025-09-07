@@ -1,6 +1,7 @@
 import ClientsView from '@/views/ClientsView.vue'
 import HomeView from '@/views/HomeView.vue'
-import ProductsView from '@/views/ProductsView.vue'
+import FormProductView from '@/views/products/FormProductView.vue'
+import ProductsView from '@/views/products/ProductsView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 export const Route: Readonly<Record<string, string>> = {
@@ -30,13 +31,23 @@ export const routes: Readonly<RouteRecordRaw[]> = [
 	},
 	{
 		path: Route.PRODUCTS,
-		name: 'products',
-		component: ProductsView,
-		props: { admin: true },
 		meta: {
 			requiresUser: true,
 			requireAdmin: true,
 		},
+		children: [
+			{
+				path: '',
+				name: 'products',
+				component: ProductsView,
+				props: { admin: true },
+			},
+			{
+				path: 'add',
+				name: 'add-product',
+				component: FormProductView
+			},
+		],
 	},
 	{
 		path: Route.CLIENTS,

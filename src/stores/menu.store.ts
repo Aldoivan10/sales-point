@@ -13,11 +13,11 @@ export const useMenuStore = defineStore('menu-store', () => {
 			route: Route.SALES_POINT,
 		},
 		{
-			title: 'PRODUTOS',
+			title: 'PRODUCTOS',
 			admin: true,
 			subtitle: 'F2',
 			icon: 'r_menu_book',
-			tooltip: 'F3',
+			tooltip: 'F2',
 			route: Route.PRODUCTS,
 		},
 		{

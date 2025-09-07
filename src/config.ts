@@ -8,15 +8,15 @@ export const theme: QuasarPluginOptions = {
 	plugins: { Dialog, Notify },
 	config: {
 		brand: {
-			primary: '#F28028',
-			secondary: '#F26929',
+			primary: 'var(--color-primary)',
+			secondary: 'var(--color-secondary)',
 			accent: '#9C27B0',
 
-			dark: '#333333',
+			dark: 'var(--color-dark)',
 			'dark-page': '#1d1d1d',
 
 			positive: '#21BA45',
-			negative: '#f44336',
+			negative: 'var(--color-negative)',
 			info: '#448aff',
 			warning: '#fec408',
 		},

@@ -6,7 +6,6 @@ import { errorToast } from '@/utils/msg.util'
 import { storeToRefs } from 'pinia'
 import { useQuasar } from 'quasar'
 import { computed, ref, watch } from 'vue'
-
 const { admin = false } = defineProps<{ admin?: boolean }>()
 
 const productStore = useProductStore()
@@ -74,20 +73,21 @@ watch([productError, kitError], ([pError, kError]) => {
 			:key="data.title"
 			:rows="data.rows"
 			:title="data.title"
-			:columns="data.columns"
-			:loading="data.loading"
 			class="grow w-full"
 			icon="r_point_of_sale"
+			:columns="data.columns"
+			:loading="data.loading"
 			v-model:filter="filter"
 			v-model:pagination="pagination"
 			@edit="(item) => console.log(item)"
+			@add="$router.push({ name: 'add-product' })"
 		>
 			<template #header-append>
 				<q-toggle
+					:color="admin ? 'primary' : 'dark'"
 					unchecked-icon="r_inventory_2"
 					checked-icon="r_all_inbox"
 					v-model="showKits"
-					color="black"
 					size="lg"
 				>
 					<q-tooltip class="text-center">
