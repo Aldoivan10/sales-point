@@ -2,7 +2,7 @@ import { useApiClient } from "@aldoivan10/v-api-client/composable";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-export const useCatalogStore = defineStore('catlog', () => {
+export const useCatalogStore = defineStore('catalog', () => {
     const api = useApiClient()
     const catalogs = {
         'units': ref<CatalogItem>({
@@ -18,10 +18,27 @@ export const useCatalogStore = defineStore('catlog', () => {
             loading: false,
             error: undefined,
             endPoint: '/code'
+        }),
+        'departments': ref<CatalogItem>({
+            total: 0,
+            items: [],
+            loading: false,
+            error: undefined,
+            endPoint: '/department'
+        })
+        ,
+        'providers': ref<CatalogItem>({
+            total: 0,
+            items: [],
+            loading: false,
+            error: undefined,
+            endPoint: '/provider'
         })
     }
     const units = catalogs['units']
     const codes = catalogs['codes']
+    const providers = catalogs['providers']
+    const departments = catalogs['departments']
 
     async function find(name: keyof typeof catalogs, options: Record<string, any> = { orders: ['id_asc'] }) {
         const catalog = catalogs[name]
@@ -43,5 +60,5 @@ export const useCatalogStore = defineStore('catlog', () => {
         catalog.value.loading = false
     }
 
-    return { find, units, codes }
+    return { find, units, codes, providers, departments }
 })

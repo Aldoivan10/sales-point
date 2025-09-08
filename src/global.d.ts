@@ -59,8 +59,10 @@ declare global {
 			units: Unit[]
 		}
 
-		type Form = Item & {
-			units: number[]
+		type Form = Partial<Omit<Item, 'codes'>> & {
+			codes: Record<number, string>,
+			department?: number,
+			supplier?: number,
 		}
 	}
 
