@@ -46,15 +46,10 @@ onMounted(async () => {
 			<q-btn flat round color="secondary" icon="r_arrow_back">
 				<q-tooltip> REGRESAR </q-tooltip>
 			</q-btn>
-			<h4 class="text-secondary text-start font-bold">
+			<h4 class="text-secondary text-start font-bold mr-auto">
 				Crear nuevo producto
 			</h4>
-			<q-btn
-				class="align-self-end justify-self-end"
-				color="positive"
-				label="GUARDAR"
-				icon="r_save"
-			/>
+			<q-btn unelevated color="positive" label="GUARDAR" icon="r_save" />
 		</div>
 		<q-card class="w-full h-full">
 			<q-card-section>
@@ -245,12 +240,13 @@ onMounted(async () => {
 							</q-input>
 							<q-btn
 								round
+								unelevated
 								size="sm"
 								icon="r_delete"
 								color="negative"
 								class="absolute end-[-1.5em] top-[-1em] z-2"
 							>
-								<q-tooltip> Eliminar </q-tooltip>
+								<q-tooltip> ELIMINAR </q-tooltip>
 							</q-btn>
 						</div>
 					</div>
