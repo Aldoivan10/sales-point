@@ -32,7 +32,7 @@ export const useCatalogStore = defineStore('catalog', () => {
             items: [],
             loading: false,
             error: undefined,
-            endPoint: '/provider'
+            endPoint: '/entity'
         })
     }
     const units = catalogs['units']

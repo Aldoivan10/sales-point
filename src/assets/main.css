@@ -11,4 +11,8 @@
 	@variant dark {
 		--color-negative: #c10015;
 	}
+
+	.q-field__prefix {
+		color: color-mix(in srgb, var(--color-secondary), var(--color-gray-100)) !important;
+	}
 }
